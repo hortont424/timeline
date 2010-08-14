@@ -20,30 +20,32 @@ def readFile(fn):
 
 zeroTime = datetime.time(0, 0, 0)
 
-data = json.loads(readFile("data/residence.cal"))
-
 cal = icalendar.Calendar()
 cal.add('prodid', '-//LifeCalendar//hortont.com//')
 cal.add('version', '2.0')
 
-for jsevent in data:
-    icsevt = icalendar.Event()
-    evt = Event(jsevent)
+for root, dirs, files in os.walk("data"):
+    for file in files:
+        prefix = "({0}) ".format(os.path.splitext(os.path.basename(file))[0])
 
-    icsevt.add('summary', evt.name)
-    icsevt.add('dtstart', evt.date.date)
-    icsevt.add('dtstamp', evt.date.date)
-    icsevt.add('dtend', evt.endDate.date)
+        for jsevent in json.loads(readFile(os.path.join(root, file))):
+            icsevt = icalendar.Event()
+            evt = Event(jsevent)
 
-    description = ""
-    if isinstance(evt.address, list):
-        description = "\n\n".join([str(addr) for addr in evt.address])
-    else:
-        description = str(evt.address)
-    icsevt.add('description', description)
+            icsevt.add('summary', prefix + str(evt.name))
+            icsevt.add('dtstart', evt.date.date)
+            icsevt.add('dtstamp', evt.date.date)
+            icsevt.add('dtend', evt.endDate.date)
 
-    icsevt.add('transp', "TRANSPARENT")
-    icsevt['uid'] = uuid.uuid4().hex
-    cal.add_component(icsevt)
+            description = ""
+            if isinstance(evt.address, list):
+                description = "\n\n".join([str(addr) for addr in evt.address])
+            else:
+                description = str(evt.address)
+            icsevt.add('description', description)
+
+            icsevt.add('transp', "TRANSPARENT")
+            icsevt['uid'] = uuid.uuid4().hex
+            cal.add_component(icsevt)
 
 startServer(cal.as_string())
