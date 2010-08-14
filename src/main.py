@@ -18,8 +18,6 @@ def readFile(fn):
     fileHandle.close()
     return fileContents
 
-zeroTime = datetime.time(0, 0, 0)
-
 cal = icalendar.Calendar()
 cal.add('prodid', '-//LifeCalendar//hortont.com//')
 cal.add('version', '2.0')
