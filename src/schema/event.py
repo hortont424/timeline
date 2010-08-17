@@ -5,7 +5,7 @@ from name import Name
 from date import Date
 
 class Event(SchemaObject):
-    knownKeys = ["name", "address", "date"]
+    knownKeys = ["name", "address", "date", "details", "participants"]
 
     def __init__(self, obj):
         super(Event, self).__init__(obj)
@@ -38,6 +38,11 @@ class Event(SchemaObject):
             self.name = Name(self._name)
         else:
             self.name = Name("Unnamed Event")
+
+        if hasattr(self, "_details"):
+            self.details = self._details
+        else:
+            self.details = ""
 
     def __str__(self):
         outStr = str(self.name)

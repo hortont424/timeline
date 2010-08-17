@@ -48,12 +48,18 @@ for root, dirs, files in os.walk("data"):
             icsevt.add('dtstamp', evt.date.date)
             icsevt.add('dtend', evt.endDate.date)
 
-            description = ""
+            description = evt.details
+
+            if description:
+                description += "\n\n"
+
             if isinstance(evt.address, list):
-                description = "\n\n".join([str(addr) for addr in evt.address])
+                description += "\n\n".join([str(addr) for addr in evt.address])
             else:
-                description = str(evt.address)
-            icsevt.add('description', description)
+                if evt.address:
+                    description += str(evt.address)
+
+            icsevt.add('description', description.strip())
 
             icsevt.add('transp', "TRANSPARENT")
             icsevt['uid'] = uuid.uuid4().hex
