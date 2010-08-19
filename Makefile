@@ -1,4 +1,7 @@
-.PHONY: all
+.PHONY: all clean
 
 all:
-	python src/main.py
+	./src/main.py
+
+clean:
+	find . -name *.pyc | xargs rm -f

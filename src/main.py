@@ -1,73 +1,30 @@
+#!/usr/bin/env python -W all
+
+from __future__ import print_function
+
 from schema import *
-from server import startServer
+from util import *
+from backend import *
+from frontend import *
 
-import datetime
+import server
+
 import os
-import json
-import codecs
-import string
-import re
 import sys
-import uuid
 
-import icalendar
+def main():
+    events = []
 
-def readFile(fn):
-    fileHandle = codecs.open(fn, encoding='utf-8')
-    fileContents = unicode(fileHandle.read())
-    fileHandle.close()
-    return fileContents
+    for root, dirs, files in os.walk("data"):
+        for fileName in [os.path.join(root, f) for f in files]:
+            fileExtension = os.path.splitext(os.path.basename(fileName))[1].lower()
+            backend = getCalendarBackend(fileExtension.strip("."))
 
-cal = icalendar.Calendar()
-cal.add('prodid', '-//LifeCalendar//hortont.com//')
-cal.add('version', '2.0')
+            if backend:
+                cal = backend(fileName)
+                events.extend(cal.events)
 
-for root, dirs, files in os.walk("data"):
-    for file in files:
-        fileBase, fileExtension = os.path.splitext(os.path.basename(file))
+    server.startServer(iCalendarFrontend(events).getFile())
 
-        if not fileExtension.lower().endswith("cal"):
-            continue
-
-        prefix = "({0}) ".format(fileBase.replace("-", " "))
-
-        print "Loading {0} ...".format(file),
-
-        try:
-            jsevents = json.loads(readFile(os.path.join(root, file)))
-        except Exception as e:
-            print "failed (invalid file: {0})!".format(str(e))
-            continue
-
-        for jsevent in jsevents:
-            icsevt = icalendar.Event()
-            evt = Event(jsevent)
-
-            icsevt.add('summary', prefix + str(evt.name))
-            icsevt.add('dtstart', evt.date.date)
-            icsevt.add('dtstamp', evt.date.date)
-            icsevt.add('dtend', evt.endDate.date)
-
-            description = evt.details
-
-            if description:
-                description += "\n\n"
-
-            if isinstance(evt.address, list):
-                description += "\n\n".join([str(addr) for addr in evt.address])
-            else:
-                if evt.address:
-                    description += str(evt.address)
-
-            icsevt.add('description', description.strip())
-
-            icsevt.add('transp', "TRANSPARENT")
-            icsevt['uid'] = uuid.uuid4().hex
-            cal.add_component(icsevt)
-
-        if len(jsevents) == 1:
-            print "got {0} event!".format(len(jsevents))
-        else:
-            print "got {0} events!".format(len(jsevents))
-
-startServer(cal.as_string())
+if __name__ == "__main__":
+    main()

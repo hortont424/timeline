@@ -1,4 +1,4 @@
-from schemaObject import SchemaObject
+from .schemaObject import SchemaObject
 
 class Address(SchemaObject):
     knownKeys = ["street", "city", "state", "country", "zipCode"]
