@@ -12,6 +12,8 @@ import server
 import os
 import sys
 
+# TODO: better logging...
+
 def main():
     events = []
 

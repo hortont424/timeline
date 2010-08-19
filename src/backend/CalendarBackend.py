@@ -4,6 +4,11 @@ calendarBackends = {}
 
 def calendarBackend(extension):
     def wrap(cls):
+        if extension in calendarBackends:
+            print("Extension {0} already claimed by {1}.".format(extension,
+                str(calendarBackends[extension])))
+            exit(8)
+
         calendarBackends[extension] = cls
         return cls
     return wrap
