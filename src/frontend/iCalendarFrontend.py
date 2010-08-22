@@ -23,13 +23,12 @@ class iCalendarFrontend(CalendarFrontend):
                                   normalize("NFKD", unicode(event.name)))
             icsevt.add('dtstart', event.date.date)
             icsevt.add('dtstamp', event.date.date)
-
             # This seems particularly hacky. Why is iCal not inclusive of
             # ending date?
-            if event.endDate._includeDay:
-                icsevt.add('dtend', event.endDate.date + datetime.timedelta(days=1))
-            else:
-                icsevt.add('dtend', event.endDate.date)
+            icsevt.add('dtend', event.endDate.date + datetime.timedelta(days=1))
+
+            if event.yearly:
+                icsevt.add('rrule', {"FREQ":"YEARLY", "INTERVAL":1})
 
             description = event.details
 

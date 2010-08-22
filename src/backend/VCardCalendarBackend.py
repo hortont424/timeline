@@ -24,7 +24,8 @@ class VCardCalendarBackend(CalendarBackend):
             for card in vobject.readComponents(readFile(fileName)):
                 if hasattr(card, "bday"):
                     vcevents.append({"name": card.fn.value,
-                                     "date": card.bday.value})
+                                     "date": card.bday.value,
+                                     "yearly": True})
             self.events = [Event(vcevent, title=title) for vcevent in vcevents]
         except Exception as e:
             print("Failed to load file {0}: {1}".format(fileName, str(e)))

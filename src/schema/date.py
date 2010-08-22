@@ -1,11 +1,10 @@
 import datetime
 
 class Date(object):
-    def __init__(self, d, includeDay=False):
+    def __init__(self, d):
         super(Date, self).__init__()
 
         self._date = d
-        self._includeDay = includeDay
 
         if self._date:
             self.date = datetime.date(*(map(int, self._date.split("-"))))

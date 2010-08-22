@@ -5,7 +5,7 @@ from .name import Name
 from .date import Date
 
 class Event(SchemaObject):
-    knownKeys = ["name", "address", "date", "details", "participants"]
+    knownKeys = ["name", "address", "date", "details", "participants", "yearly"]
 
     def __init__(self, obj, title=""):
         super(Event, self).__init__(obj)
@@ -27,7 +27,7 @@ class Event(SchemaObject):
                     self.endDate = Date(None)
                 elif len(self._date) == 2:
                     self.date = Date(self._date[0])
-                    self.endDate = Date(self._date[1], includeDay=True)
+                    self.endDate = Date(self._date[1])
                 else:
                     raise Exception("Too many dates!")
             else:
@@ -45,6 +45,11 @@ class Event(SchemaObject):
             self.details = self._details
         else:
             self.details = ""
+
+        if hasattr(self, "_yearly"):
+            self.yearly = self._yearly
+        else:
+            self.yearly = False
 
     def __str__(self):
         outStr = str(self.name)

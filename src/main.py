@@ -27,6 +27,8 @@ def main():
                 if cal.events:
                     events.extend(cal.events)
 
+    print("Loaded {0} events.".format(len(events)))
+
     server.startServer(iCalendarFrontend(events).getFile())
 
 if __name__ == "__main__":
