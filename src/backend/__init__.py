@@ -1,2 +1,4 @@
 from .JSONCalendarBackend import JSONCalendarBackend
+from .VCardCalendarBackend import VCardCalendarBackend
+
 from .CalendarBackend import getCalendarBackend

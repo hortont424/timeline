@@ -24,7 +24,8 @@ def main():
 
             if backend:
                 cal = backend(fileName)
-                events.extend(cal.events)
+                if cal.events:
+                    events.extend(cal.events)
 
     server.startServer(iCalendarFrontend(events).getFile())
 

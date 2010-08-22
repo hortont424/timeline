@@ -7,6 +7,9 @@ class CalendarHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(CalendarHandler.serverString)
 
+    def log_message(self, format, *others):
+        pass
+
 def startServer(srv):
     try:
         CalendarHandler.serverString = srv

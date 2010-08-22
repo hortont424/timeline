@@ -4,6 +4,8 @@ from .CalendarFrontend import CalendarFrontend, calendarFrontend
 
 import icalendar
 import uuid
+import datetime
+from unicodedata import normalize
 
 @calendarFrontend("ics")
 class iCalendarFrontend(CalendarFrontend):
@@ -17,10 +19,17 @@ class iCalendarFrontend(CalendarFrontend):
         for event in events:
             icsevt = icalendar.Event()
 
-            icsevt.add('summary', event.title + str(event.name))
+            icsevt.add('summary', normalize("NFKD", unicode(event.title)) +
+                                  normalize("NFKD", unicode(event.name)))
             icsevt.add('dtstart', event.date.date)
             icsevt.add('dtstamp', event.date.date)
-            icsevt.add('dtend', event.endDate.date)
+
+            # This seems particularly hacky. Why is iCal not inclusive of
+            # ending date?
+            if event.endDate._includeDay:
+                icsevt.add('dtend', event.endDate.date + datetime.timedelta(days=1))
+            else:
+                icsevt.add('dtend', event.endDate.date)
 
             description = event.details
 
@@ -33,7 +42,8 @@ class iCalendarFrontend(CalendarFrontend):
                 if event.address:
                     description += str(event.address)
 
-            icsevt.add('description', description.strip())
+            icsevt.add('description',
+                       normalize("NFKD", unicode(description.strip())))
 
             icsevt.add('transp', "TRANSPARENT")
             icsevt['uid'] = uuid.uuid4().hex
