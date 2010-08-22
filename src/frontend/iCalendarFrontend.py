@@ -13,7 +13,7 @@ class iCalendarFrontend(CalendarFrontend):
         super(iCalendarFrontend, self).__init__(events)
 
         cal = icalendar.Calendar()
-        cal.add('prodid', '-//LifeCalendar//hortont.com//')
+        cal.add('prodid', '-//Timeline//hortont.com//')
         cal.add('version', '2.0')
 
         for event in events:
