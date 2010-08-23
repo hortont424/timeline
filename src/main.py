@@ -14,16 +14,16 @@ import sys
 
 # TODO: better logging...
 
-def main():
+def main(dataPath="data"):
     events = []
 
-    for root, dirs, files in os.walk("data"):
+    for root, dirs, files in os.walk(dataPath):
         for fileName in [os.path.join(root, f) for f in files]:
             fileExtension = os.path.splitext(os.path.basename(fileName))[1].lower()
             backend = getCalendarBackend(fileExtension.strip("."))
 
             if backend:
-                cal = backend(fileName)
+                cal = backend(fileName, dataPath)
                 if cal.events:
                     events.extend(cal.events)
 
