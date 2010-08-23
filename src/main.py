@@ -5,7 +5,6 @@ from __future__ import print_function
 from schema import *
 from util import *
 from backend import *
-from frontend import *
 
 import server
 
@@ -29,8 +28,7 @@ def main(dataPath="data"):
 
     print("Loaded {0} events.".format(len(events)))
 
-    frontend, mimetype = getCalendarFrontend("html")
-    server.startServer(frontend(events).getFile(), mimetype)
+    server.startServer(events)
 
 if __name__ == "__main__":
     main()

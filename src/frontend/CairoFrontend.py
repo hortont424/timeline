@@ -37,8 +37,6 @@ class CairoFrontend(CalendarFrontend):
         surface.finish()
         self.pdf = surfaceData.getvalue()
 
-        print("Ready.")
-
     def drawEvent(self, event, offset=None):
         startDay = (event.date.date - self.earliestDate).days
         endDay = (event.endDate.date - self.earliestDate).days + 1

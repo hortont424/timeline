@@ -27,8 +27,6 @@ class HTMLFrontend(CalendarFrontend):
         for event in sorted(events, key=lambda e:(e.date.date - e.endDate.date).days):
             self.html += self.generateEvent(event)
 
-        print("Ready.")
-
     def generateEvent(self, event, offset=None):
         startDay = (event.date.date - self.earliestDate).days
         endDay = (event.endDate.date - self.earliestDate).days + 1

@@ -12,7 +12,7 @@ def getCalendarFrontend(name):
     if name in calendarFrontends:
         return calendarFrontends[name]
     else:
-        return None
+        return (None, None)
 
 class CalendarFrontend(object):
     def __init__(self, events):
