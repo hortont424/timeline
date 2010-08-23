@@ -29,7 +29,8 @@ def main(dataPath="data"):
 
     print("Loaded {0} events.".format(len(events)))
 
-    server.startServer(iCalendarFrontend(events).getFile())
+    frontend, mimetype = getCalendarFrontend("html")
+    server.startServer(frontend(events).getFile(), mimetype)
 
 if __name__ == "__main__":
     main()

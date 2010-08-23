@@ -7,7 +7,7 @@ import uuid
 import datetime
 from unicodedata import normalize
 
-@calendarFrontend("ics")
+@calendarFrontend("ics", "text/calendar")
 class iCalendarFrontend(CalendarFrontend):
     def __init__(self, events):
         super(iCalendarFrontend, self).__init__(events)
