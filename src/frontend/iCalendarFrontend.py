@@ -28,7 +28,7 @@ class iCalendarFrontend(CalendarFrontend):
             icsevt.add('dtend', event.endDate.date + datetime.timedelta(days=1))
 
             if event.yearly:
-                icsevt.add('rrule', {"FREQ":"YEARLY", "INTERVAL":1})
+                icsevt.add('rrule', {"FREQ": "YEARLY", "INTERVAL": 1})
 
             description = event.details
 
