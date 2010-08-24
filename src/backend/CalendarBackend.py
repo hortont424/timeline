@@ -33,7 +33,7 @@ class CalendarBackend(object):
         self.events = None
 
         if dirName:
-            self.title = "({0} - {1}) ".format(dirName.replace("-", " "),
-                                               fileBase.replace("-", " "))
+            self.title = "{0} - {1}".format(dirName.replace("-", " "),
+                                            fileBase.replace("-", " "))
         else:
-            self.title = "({0}) ".format(fileBase.replace("-", " "))
+            self.title = "{0}".format(fileBase.replace("-", " "))

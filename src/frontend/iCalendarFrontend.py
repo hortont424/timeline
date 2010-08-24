@@ -19,7 +19,7 @@ class iCalendarFrontend(CalendarFrontend):
         for event in events:
             icsevt = icalendar.Event()
 
-            icsevt.add('summary', normalize("NFKD", unicode(event.title)) +
+            icsevt.add('summary', normalize("NFKD", u"({0}) ".format(event.title)) +
                                   normalize("NFKD", unicode(event.name)))
             icsevt.add('dtstart', event.date.date)
             icsevt.add('dtstamp', event.date.date)

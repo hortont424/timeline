@@ -1,9 +1,9 @@
+from .schemaObject import SchemaObject
+
 import datetime
 
-class Date(object):
+class Date(SchemaObject):
     def __init__(self, d):
-        super(Date, self).__init__()
-
         self._date = d
 
         if self._date:
@@ -13,3 +13,6 @@ class Date(object):
 
     def __str__(self):
         return self.date.strftime("%Y-%m-%d")
+
+    def simplify(self):
+        return unicode(self)

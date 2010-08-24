@@ -1,5 +1,4 @@
 from .iCalendarFrontend import iCalendarFrontend
-from .CairoFrontend import CairoFrontend
-from .HTMLFrontend import HTMLFrontend
+from .JSONFrontend import JSONFrontend
 
 from .CalendarFrontend import getCalendarFrontend

@@ -2,6 +2,7 @@ from .schemaObject import SchemaObject
 
 class Address(SchemaObject):
     knownKeys = ["name", "street", "city", "state", "country", "zipCode"]
+    outputKeys = ["name", "street", "city", "state", "country", "zipCode"]
 
     def __init__(self, obj):
         super(Address, self).__init__(obj)
@@ -34,3 +35,6 @@ class Address(SchemaObject):
             outStr += self._country
 
         return outStr
+
+    def simplify(self):
+        return unicode(self)
