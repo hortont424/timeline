@@ -1,7 +1,7 @@
 from .schemaObject import SchemaObject
 
 class Address(SchemaObject):
-    knownKeys = ["street", "city", "state", "country", "zipCode"]
+    knownKeys = ["name", "street", "city", "state", "country", "zipCode"]
 
     def __init__(self, obj):
         super(Address, self).__init__(obj)
@@ -16,6 +16,9 @@ class Address(SchemaObject):
                 outStr += self._street
 
         outStr += "\n"
+
+        if hasattr(self, "_name"):
+            outStr += self._name + " "
 
         if hasattr(self, "_city"):
             outStr += self._city + " "
