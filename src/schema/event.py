@@ -5,8 +5,8 @@ from .name import Name
 from .date import Date
 
 class Event(SchemaObject):
-    knownKeys = ["name", "address", "date", "details", "participants", "yearly"]
-    outputKeys = ["name", "address", "date", "details", "participants", "yearly", "endDate", "title"]
+    knownKeys = ["name", "address", "date", "details", "participants", "yearly", "url", "meta"]
+    outputKeys = knownKeys + ["endDate", "title"]
 
     def __init__(self, obj, title=""):
         super(Event, self).__init__(obj)
